@@ -1,0 +1,12 @@
+transformacao:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      user: user
+      password: password
+      port: 5432
+      dbname: olist_dw
+      schema: dw
+      threads: 4

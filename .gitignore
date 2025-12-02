@@ -205,3 +205,21 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# --- Dados ---
+# Pasta onde serão salvos os arquivos CSV.
+data/
+# Arquivos CSV soltos na raiz, por segurança
+*.csv
+# Arquivos zip
+*.zip
+
+# --- IDEs e Sistema Operacional ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Docker ---
+postgres_data/
+metabase_data/

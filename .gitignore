@@ -223,3 +223,10 @@ Thumbs.db
 # --- Docker ---
 postgres_data/
 metabase_data/
+
+# Credenciais
+kaggle.json
+.env
+
+#venv
+venv

@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 # --- Configurações ---
 DATA_DIR = "data"
 # Conecta como localhost pois o script roda na sua máquina
-DB_URI = "postgresql://user:password@localhost:5432/olist_dw"
+DB_URI = os.getenv("DB_URI", "postgresql://user:password@localhost:5432/olist_dw")
 
 def load_data():
     print("🔌 Conectando ao Banco de Dados...")

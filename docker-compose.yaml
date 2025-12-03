@@ -1,11 +1,12 @@
 services:
+  # 1. Banco de Dados
   db:
     image: postgres:15
     container_name: olist_dw_postgres
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: olist_dw
+      POSTGRES_USER: ${POSTGRES_USER:-user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${POSTGRES_DB:-olist_dw}
     ports:
       - "5432:5432"
     volumes:
@@ -17,6 +18,7 @@ services:
       timeout: 5s
       retries: 5
 
+  # 2. Metabase
   metabase:
     image: metabase/metabase:latest
     container_name: olist_dw_metabase
@@ -24,8 +26,8 @@ services:
       MB_DB_TYPE: postgres
       MB_DB_DBNAME: metabase_db
       MB_DB_PORT: 5432
-      MB_DB_USER: user
-      MB_DB_PASS: password
+      MB_DB_USER: ${POSTGRES_USER:-user}
+      MB_DB_PASS: ${POSTGRES_PASSWORD:-password}
       MB_DB_HOST: db
     ports:
       - "3000:3000"
@@ -34,6 +36,24 @@ services:
         condition: service_healthy
     volumes:
       - metabase-data:/metabase-data
+
+  # 3. ETL Pipeline
+  etl:
+    build: .
+    container_name: olist_dw_etl
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./transformacao:/app/transformacao
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URI: postgresql://${POSTGRES_USER:-user}:${POSTGRES_PASSWORD:-password}@db:5432/${POSTGRES_DB:-olist_dw}
+      DB_HOST: db
+      POSTGRES_USER: ${POSTGRES_USER:-user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
 
 volumes:
   pgdata:

@@ -68,49 +68,7 @@ O fluxo de dados segue o padrão **ELT** (Extract, Load, Transform):
 
 O modelo foi desenhado para responder perguntas de Vendas, Logística e Produto.
 
-```mermaid
-classDiagram
-    class FATO_VENDAS {
-        string pedido_id
-        int item_id
-        string cliente_id
-        string produto_id
-        string vendedor_id
-        timestamp data_pedido
-        string status_pedido
-        float valor
-        float frete
-        float valor_total
-    }
-
-    class DIM_CLIENTES {
-        string cliente_id
-        string cliente_unico_id
-        int cep
-        string cidade
-        string estado
-    }
-
-    class DIM_PRODUTOS {
-        string produto_id
-        string categoria
-        int peso_g
-        int comprimento_cm
-        int altura_cm
-        int largura_cm
-    }
-
-    class DIM_VENDEDORES {
-        string vendedor_id
-        int cep
-        string cidade
-        string estado
-    }
-
-    DIM_CLIENTES --> FATO_VENDAS : realiza
-    DIM_PRODUTOS --> FATO_VENDAS : compõe
-    DIM_VENDEDORES --> FATO_VENDAS : vende
-```
+![Star Schema](docs/diagrama-star-schema.png)
 
 * **Fato:** `fato_vendas` (Granularidade: Item do Pedido)
 * **Dimensões:** `dim_clientes`, `dim_produtos`, `dim_vendedores`

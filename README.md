@@ -68,6 +68,7 @@ O fluxo de dados segue o padrão **ELT** (Extract, Load, Transform):
 
 O modelo foi desenhado para responder perguntas de Vendas, Logística e Produto.
 
+```
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ffcc00', 'edgeLabelBackground':'#ffffff', 'tertiaryColor': '#f4f4f4'}}}%%
 erDiagram
     %% Tabela Fato Central
@@ -113,6 +114,7 @@ erDiagram
     DIM_CLIENTES ||--o{ FATO_VENDAS : "realiza"
     DIM_PRODUTOS ||--o{ FATO_VENDAS : "compõe"
     DIM_VENDEDORES ||--o{ FATO_VENDAS : "vende"
+```
 
 * **Fato:** `fato_vendas` (Granularidade: Item do Pedido)
 * **Dimensões:** `dim_clientes`, `dim_produtos`, `dim_vendedores`

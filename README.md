@@ -68,52 +68,48 @@ O fluxo de dados segue o padrão **ELT** (Extract, Load, Transform):
 
 O modelo foi desenhado para responder perguntas de Vendas, Logística e Produto.
 
-```
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ffcc00', 'edgeLabelBackground':'#ffffff', 'tertiaryColor': '#f4f4f4'}}}%%
-erDiagram
-    %% Tabela Fato Central
-    FATO_VENDAS {
-        string pedido_id PK
-        int item_id PK
-        string cliente_id FK "FK para Dim Clientes"
-        string produto_id FK "FK para Dim Produtos"
-        string vendedor_id FK "FK para Dim Vendedores"
-        timestamp data_pedido "Dimensão Degenerada"
+```mermaid
+classDiagram
+    class FATO_VENDAS {
+        string pedido_id
+        int item_id
+        string cliente_id
+        string produto_id
+        string vendedor_id
+        timestamp data_pedido
         string status_pedido
         float valor
         float frete
         float valor_total
     }
 
-    %% Tabelas Dimensão
-    DIM_CLIENTES {
-        string cliente_id PK
+    class DIM_CLIENTES {
+        string cliente_id
         string cliente_unico_id
         int cep
         string cidade
         string estado
     }
 
-    DIM_PRODUTOS {
-        string produto_id PK
-        string categoria "Categoria Traduzida"
+    class DIM_PRODUTOS {
+        string produto_id
+        string categoria
         int peso_g
         int comprimento_cm
         int altura_cm
         int largura_cm
     }
 
-    DIM_VENDEDORES {
-        string vendedor_id PK
+    class DIM_VENDEDORES {
+        string vendedor_id
         int cep
         string cidade
         string estado
     }
 
-    %% Relacionamentos (Star Schema)
-    DIM_CLIENTES ||--o{ FATO_VENDAS : "realiza"
-    DIM_PRODUTOS ||--o{ FATO_VENDAS : "compõe"
-    DIM_VENDEDORES ||--o{ FATO_VENDAS : "vende"
+    DIM_CLIENTES --> FATO_VENDAS : realiza
+    DIM_PRODUTOS --> FATO_VENDAS : compõe
+    DIM_VENDEDORES --> FATO_VENDAS : vende
 ```
 
 * **Fato:** `fato_vendas` (Granularidade: Item do Pedido)
